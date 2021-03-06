@@ -4,3 +4,5 @@ class Ticket {
         this.desktop = desktop;
     }
 }
+
+module.exports = Ticket;

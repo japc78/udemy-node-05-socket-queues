@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const dbPath = path.join(__dirname, '../db/data.json');
+const Ticket = require('./ticket');
 
 class TicketControl {
     constructor() {
@@ -50,6 +51,39 @@ class TicketControl {
             console.log(error);
         }
     }
+
+
+    nextTicket() {
+        this.last += 1;
+        const ticket = new Ticket(this.last, null);
+        this.tickets.push(ticket);
+        this.saveDB();
+
+        return 'Ticket ' + ticket.number;
+    }
+
+    attendTicket(desktop) {
+        // No hay tickets que atender
+        if (this.tickets.length === 0) return null;
+
+        // Se coge y se elimina el primer ticket del array
+        const ticket = this.tickets.shift();
+
+        ticket.desktop = desktop;
+
+        // Se añade el ticket a los últimos 4
+        this.last4.unshift(ticket);
+
+        // Se borra el ultimo elemento si se cumple la condición
+        if (this.last4.length > 4) this.last4.splice(-1,1);
+
+        this.saveDB();
+
+        return ticket;
+    }
+
+
+
 }
 
 module.exports = TicketControl;

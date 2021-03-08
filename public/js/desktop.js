@@ -28,6 +28,11 @@ socket.on('last-ticket', (lastTicket) => {
     // lblTicket.innerText = 'Ticket ' + lastTicket;
 });
 
+
+socket.emit('last-ticket-attended', desktop, (ticket) => {
+    if (ticket) lblTicket.innerText = 'Ticket ' + ticket.number;
+});
+
 socket.on('disconnect', ()=> {
     btnAttendTicket.disabled = true;
 })

@@ -26,6 +26,8 @@ const socketController = (socket) => {
 
         const ticket = ticketControl.attendTicket(desktop);
 
+        // TODO Notificar cambio en last4
+
         if (!ticket) {
             callback({
                 ok: false,
@@ -39,6 +41,11 @@ const socketController = (socket) => {
         }
 
         console.log(payload);
+    })
+
+    socket.on('last-ticket-attended', (desktop, callback) => {
+        ticket = ticketControl.lastTicketAttended(desktop);
+        callback(ticket);
     })
 }
 

@@ -1,7 +1,8 @@
 const path = require('path');
 const fs = require('fs');
-const dbPath = path.join(__dirname, '../db/data.json');
 const Ticket = require('./ticket');
+
+const dbPath = path.join(__dirname, '../db/data.json');
 
 class TicketControl {
     constructor() {
@@ -31,6 +32,7 @@ class TicketControl {
             // const data = require('../db/data.json');
             // // console.log(data);
             const { today, tickets, last, last4 } = require('../db/data.json');
+            console.log(today);
 
             if (today === this.today) {
                 this.tickets = tickets;
@@ -79,6 +81,12 @@ class TicketControl {
 
         this.saveDB();
 
+        return ticket;
+    }
+
+    lastTicketAttended (desktop) {
+        if(this.last4.length === 0) return null
+        const ticket = this.last4.find(ticket => ticket.desktop = desktop);
         return ticket;
     }
 

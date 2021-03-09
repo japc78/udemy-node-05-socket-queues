@@ -86,7 +86,7 @@ class TicketControl {
 
     lastTicketAttended (desktop) {
         if(this.last4.length === 0) return null
-        const ticket = this.last4.find(ticket => ticket.desktop = desktop);
+        const ticket = this.last4.find(ticket => ticket.desktop === desktop);
         return ticket;
     }
 

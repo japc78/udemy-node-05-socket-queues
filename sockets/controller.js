@@ -4,16 +4,22 @@ const ticketControl = new TicketControl();
 
 const socketController = (socket) => {
 
+    // Cuando un cliente se conecta
     socket.emit('last-ticket', ticketControl.last );
     socket.emit('last4-ticket', ticketControl.last4);
+    socket.emit('tickets-pending', ticketControl.tickets.length);
 
     socket.on('next-ticket', ( payload, callback ) => {
         const nextTicket = ticketControl.nextTicket();
         callback(nextTicket);
 
         // TODO Notificar que hay un nuevo ticket pendiente de asignar
+        socket.broadcast.emit('tickets-pending', ticketControl.tickets.length);
+
 
     })
+
+
 
     socket.on('attend-ticket', (payload, callback ) => {
 
@@ -30,6 +36,7 @@ const socketController = (socket) => {
 
         // Notificar cambio en last4
         socket.broadcast.emit('last4-ticket', ticketControl.last4);
+        socket.emit('tickets-pending', ticketControl.tickets.length);
 
         if (!ticket) {
             callback({
@@ -37,6 +44,8 @@ const socketController = (socket) => {
                 msg: 'There are not ticket that to attend'
             })
         } else {
+            socket.broadcast.emit('tickets-pending', ticketControl.tickets.length);
+
             callback({
                 ok: true,
                 ticket

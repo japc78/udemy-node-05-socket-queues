@@ -13,6 +13,10 @@ const lblTicket4  = document.querySelector('#lblTicket4');
 const lblEscritorio4 = document.querySelector('#lblEscritorio4');
 
 socket.on('last4-ticket', (payload) => {
+
+    const audio = new Audio('./audio/new-ticket.mp3')
+    audio.play();
+
     const [ ticket1, ticket2, ticket3, ticket4] = payload;
 
     if (lblTicket1) {
